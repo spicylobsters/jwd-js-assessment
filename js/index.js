@@ -44,6 +44,16 @@ window.addEventListener('DOMContentLoaded', () => {
       o: ['Sydney', 'Canberra', 'Melbourne', 'Perth'],
       a: 1,
     },
+    {
+      q: 'What is the capital of Australia',
+      o: ['Sydney', 'Canberra', 'Melbourne', 'Perth'],
+      a: 1,
+    },
+    {
+      q: 'What is the capital of Australia',
+      o: ['Sydney', 'Canberra', 'Melbourne', 'Perth'],
+      a: 1,
+    },
   ];
 
   // function to Display the quiz questions and answers from the object
@@ -52,7 +62,7 @@ window.addEventListener('DOMContentLoaded', () => {
     let quizDisplay = '';
     quizArray.map((quizItem, index) => {
       quizDisplay += `<ul class="list-group">
-                   Q - ${quizItem.q}
+                   Q ${index + 1}- ${quizItem.q}
                     <li class="list-group-item mt-2" id="li_${index}_0"><input type="radio" name="radio${index}" id="radio_${index}_0"> ${quizItem.o[0]}</li>
                     <li class="list-group-item" id="li_${index}_1"><input type="radio" name="radio${index}" id="radio_${index}_1"> ${quizItem.o[1]}</li>
                     <li class="list-group-item"  id="li_${index}_2"><input type="radio" name="radio${index}" id="radio_${index}_2"> ${quizItem.o[2]}</li>
@@ -61,6 +71,7 @@ window.addEventListener('DOMContentLoaded', () => {
                     <div>&nbsp;</div>`;
       quizWrap.innerHTML = quizDisplay;
     });
+
   };
 
   // Calculate the score
@@ -71,20 +82,78 @@ window.addEventListener('DOMContentLoaded', () => {
         //highlight the li if it is the correct answer
         let li = `li_${index}_${i}`;
         let r = `radio_${index}_${i}`;
-        liElement = document.querySelector('#' + li);
-        radioElement = document.querySelector('#' + r);
+        const liElement = document.querySelector('#' + li);
+        const radioElement = document.querySelector('#' + r);
 
         if (quizItem.a == i) {
           //change background color of li element here
+          liElement.style.backgroundColor = 'pink';
         }
 
         if (radioElement.checked) {
           // code for task 1 goes here
+          if (i == quizItem.a) {
+            score++;
+
+          }
         }
       }
     });
+    alert('Your score is: ' + score + '!');
   };
+
+
+  //countdown function
+  // get display element span
+  let countTimer = document.getElementById('time');
+  let sec = 60;
+  let min = 0;
+
+  let countTime = setInterval(function () {
+
+    sec--;
+    countTimer.innerHTML = `0${min}:${sec}`;
+
+    if (sec === 0) {
+      clearInterval(countTime);
+      disBut();
+      calculateScore();
+    }
+
+  }, 1000)
+
+
+  // reset function 
+  const resetForm = () => {
+    window.location.reload();
+
+  }
+
 
   // call the displayQuiz function
   displayQuiz();
+
+
+
+
+  //get button element
+  const submitBut = document.getElementById('btnSubmit');
+  const resetBut = document.getElementById('btnReset');
+
+  //click submit button  calculate score
+  submitBut.addEventListener('click', calculateScore);
+
+  //click reset button reset questions
+  // resetBut.addEventListener('click', displayQuiz);
+  resetBut.addEventListener('click', resetForm);
+
+  //disable submit and reset buttons
+  const disBut = () => {
+    submitBut.disabled = true;
+  }
+
+
+
+
+
 });
