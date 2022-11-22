@@ -99,7 +99,12 @@ window.addEventListener('DOMContentLoaded', () => {
         }
       }
     });
-    alert('Your score is: ' + score + '!');
+    // alert('Your score is: ' + score + '!');
+    //display score in score span 
+    let scoreGet = document.getElementById('score');
+    scoreGet.innerHTML = `Your score is ${score}`;
+
+
   };
 
 
@@ -108,13 +113,19 @@ window.addEventListener('DOMContentLoaded', () => {
   let countTimer = document.getElementById('time');
   let sec = 60;
   let min = 0;
+  //set a variale and function to detect submit button once it click count stop
+  let clickedSub = false;
+  const stopCount = () => {
+    clickedSub = true;
+  };
+
 
   let countTime = setInterval(function () {
 
     sec--;
     countTimer.innerHTML = `0${min}:${sec}`;
 
-    if (sec === 0) {
+    if (sec === 0 || clickedSub === true) {
       clearInterval(countTime);
       disBut();
       calculateScore();
@@ -142,6 +153,9 @@ window.addEventListener('DOMContentLoaded', () => {
 
   //click submit button  calculate score
   submitBut.addEventListener('click', calculateScore);
+  submitBut.addEventListener('click', stopCount);
+
+
 
   //click reset button reset questions
   // resetBut.addEventListener('click', displayQuiz);
